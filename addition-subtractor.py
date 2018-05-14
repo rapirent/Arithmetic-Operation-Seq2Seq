@@ -218,6 +218,19 @@ for i in range(len(preds)):
     print(guess)
 print("MSG : Accuracy is {}".format(right / len(preds)))
 print("MSG : Accuracy is {}".format(right / len(preds)), file=output_file)
+model.save('./models/as-' + args.output_name + '.h5')
+with open('./corpus/as-' + args.output_name + '-training-corpus.csv', 'w') as corpus:
+    print('questions,expected', file=corpus)
+    for (x, y) in zip(x_train, y_train):
+        print('{},{}'.format(ctable.decode(x), ctable.decode(y)), file=corpus)
+with open('./corpus/as-' + args.output_name + '-validation-corpus.csv', 'w') as corpus:
+    print('questions,expected', file=corpus)
+    for (x, y) in zip(x_val, y_val):
+        print('{},{}'.format(ctable.decode(x), ctable.decode(y)), file=corpus)
+with open('./corpus/as-' + args.output_name + '-testing-corpus.csv', 'w') as corpus:
+    print('questions,expected', file=corpus)
+    for (x, y) in zip(test_x, test_y):
+        print('{},{}'.format(ctable.decode(x), ctable.decode(y)), file=corpus)
 plt.plot(acc)
 plt.plot(val_acc)
 plt.title('model accuracy')
@@ -225,7 +238,7 @@ plt.ylabel('accuracy')
 plt.xlabel('epoch')
 plt.legend(['train', 'test'], loc='upper left')
 plt.savefig('./fig/as-accuracy-' + args.output_name + '.png')
-plt.close(0)
+plt.clf()
 # summarize history for loss
 plt.plot(loss)
 plt.plot(val_loss)
@@ -235,4 +248,4 @@ plt.xlabel('epoch')
 plt.legend(['train', 'test'], loc='upper left')
 plt.savefig('./fig/as-loss-' + args.output_name + '.png')
 output_file.close()
-plt.close(0)
+plt.clf()
