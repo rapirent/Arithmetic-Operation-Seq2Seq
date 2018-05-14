@@ -14,7 +14,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument('--model_name', default='model_1')
 parser.add_argument('--digits', default='3')
 args = parser.parse_args()
-chars = '0123456789+- '
+chars = '0123456789+-* '
 
 DIGITS = int(args.digits)
 REVERSE = False
@@ -45,21 +45,21 @@ class CharacterTable(object):
 ctable = CharacterTable(chars)
 ctable.indices_char
 
-model = load_model('./models/as-' + args.model_name + '.h5')
+model = load_model('./models/m-' + args.model_name + '.h5')
 test_x = []
 test_y = []
-corpus = open('./corpus/as-' + args.model_name + '-testing-corpus.csv', 'r')
+corpus = open('./corpus/m-' + args.model_name + '-testing-corpus.csv', 'r')
 corpus_reader = csv.DictReader(corpus)
 corpus_len = sum(1 for row in corpus_reader)
 corpus.close()
-corpus = open('./corpus/as-' + args.model_name + '-testing-corpus.csv', 'r')
+corpus = open('./corpus/m-' + args.model_name + '-testing-corpus.csv', 'r')
 corpus_reader = csv.DictReader(corpus)
 # load corpus
 test_x = np.zeros((corpus_len, MAXLEN, len(chars)), dtype=np.bool)
-test_y = np.zeros((corpus_len, DIGITS + 1, len(chars)), dtype=np.bool)
+test_y = np.zeros((corpus_len, MAXLEN, len(chars)), dtype=np.bool)
 for i, row in enumerate(corpus_reader):
     test_x[i] = ctable.encode(row['questions'], MAXLEN)
-    test_y[i] = ctable.encode(row['expected'], DIGITS + 1)
+    test_y[i] = ctable.encode(row['expected'], MAXLEN)
 
 print("MSG : Prediction")
 print("-" * 50)
