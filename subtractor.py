@@ -15,6 +15,7 @@ parser.add_argument('--train_size', default='40000')
 parser.add_argument('--digits', default='3')
 parser.add_argument('--epoch', default='2')
 parser.add_argument('--activation', default='softmax')
+parser.add_argument('--output_name', default='model_1')
 args = parser.parse_args()
 
 # # Parameters Config
@@ -35,6 +36,13 @@ BATCH_SIZE = 128
 EPOCH_SIZE = int(args.epoch)
 LAYERS = 1
 ACTIVATION = args.activation
+
+output_file = open('./data/s-' + args.output_name, 'w')
+print('DATA_SIZE = ', DATA_SIZE , file=output_file)
+print('TRAIN_SIZE = ', TRAIN_SIZE, file=output_file)
+print('DIGITS = ', DIGITS, file=output_file)
+print('EPOCH_SIZE = ', EPOCH_SIZE, file=output_file)
+print('ACTIVATION = ', ACTIVATION, file=output_file)
 
 class CharacterTable(object):
     def __init__(self, chars):
@@ -148,16 +156,32 @@ model.compile(loss='categorical_crossentropy',
 model.summary()
 
 
+print('validation_size = ', x_val.shape, file=output_file)
+acc = []
+val_acc = []
+loss = []
+val_loss = []
 # # Training
 for loop in range(100):
     print()
     print('-' * 50)
     print('Train Loop Num:', loop)
-    model.fit(x_train, y_train,
-              batch_size=BATCH_SIZE,
-              epochs=EPOCH_SIZE,
-              validation_data=(x_val, y_val),
-              shuffle=True)
+    history = model.fit(x_train, y_train,
+                batch_size=BATCH_SIZE,
+                epochs=EPOCH_SIZE,
+                validation_data=(x_val, y_val),
+                shuffle=True)
+    acc += history.history['acc']
+    val_acc += history.history['val_acc']
+    loss += history.history['loss']
+    val_loss += history.history['val_loss']
+    print('loop ', loop, file=output_file)
+    print('acc = {}  '.format(history.history['acc']), end='', file=output_file)
+    print('val_acc = {}  '.format(history.history['val_acc']), end='', file=output_file)
+    print('loss = {}  '.format(history.history['loss']), end='', file=output_file)
+    print('val_loss = {}  '.format(history.history['val_loss']), file=output_file)
+    print('-' * 50 , file=output_file)
+
     for i in range(10):
         ind = np.random.randint(0, len(x_val))
         rowx, rowy = x_val[np.array([ind])], y_val[np.array([ind])]
@@ -192,3 +216,20 @@ for i in range(len(preds)):
         print(colors.fail + '☒' + colors.close, end=' ')
     print(guess)
 print("MSG : Accuracy is {}".format(right / len(preds)))
+print("MSG : Accuracy is {}".format(right / len(preds)), file=output_file)
+plt.plot(acc)
+plt.plot(val_acc)
+plt.title('model accuracy')
+plt.ylabel('accuracy')
+plt.xlabel('epoch')
+plt.legend(['train', 'test'], loc='upper left')
+plt.savefig('./fig/s-accuracy-' + args.output_name + '.png')
+# summarize history for loss
+plt.plot(loss)
+plt.plot(val_loss)
+plt.title('model loss')
+plt.ylabel('loss')
+plt.xlabel('epoch')
+plt.legend(['train', 'test'], loc='upper left')
+plt.savefig('./fig/s-loss-' + args.output_name + '.png')
+output_file.close()
