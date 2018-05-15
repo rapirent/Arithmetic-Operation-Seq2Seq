@@ -36,7 +36,7 @@ EPOCH_SIZE = int(args.epoch)
 LAYERS = 1
 ACTIVATION = args.activation
 
-output_file = open('./data/as-' + args.output_name, 'w')
+output_file = open('./data/m-' + args.output_name, 'w')
 print('DATA_SIZE = ', DATA_SIZE , file=output_file)
 print('TRAIN_SIZE = ', TRAIN_SIZE, file=output_file)
 print('DIGITS = ', DIGITS, file=output_file)
