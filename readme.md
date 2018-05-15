@@ -56,6 +56,12 @@ $ python3 ./model_load-multiply.py [--model_name MODEL_NAME]
                                          [--digits DIGITS]
 ```
 
+- You can use shell script to execute the models
+
+```sh
+bash command.sh
+```
+
 ## detail and report
 
 You can refer to jupyter notebook [Model.ipynb](https://nbviewer.jupyter.org/github/rapirent/DSAI-HW3/blob/master/Model.ipynb)
