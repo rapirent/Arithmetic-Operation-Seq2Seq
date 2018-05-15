@@ -54,5 +54,7 @@ $ python3 ./model_load-addition-subtractor.py [--model_name MODEL_NAME]
 $ python3 ./model_load-multiply.py [--model_name MODEL_NAME]
                                          [--digits DIGITS]
 ```
-## report
 
+## detail and report
+
+You can refer to jupyter notebook [Model.ipynb](https://nbviewer.jupyter.org/github/rapirent/DSAI-HW3/blob/master/Model.ipynb)
