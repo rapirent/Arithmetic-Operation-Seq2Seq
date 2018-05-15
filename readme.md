@@ -1,4 +1,5 @@
-# Sequence to Sequnce
+# Arithmetic-Operation-Seq2Seq
+use seq2seq to implement simple arithmetic operation
 
 ## files & directories
 - corpus/*: the original corpus of each experiment
@@ -58,3 +59,7 @@ $ python3 ./model_load-multiply.py [--model_name MODEL_NAME]
 ## detail and report
 
 You can refer to jupyter notebook [Model.ipynb](https://nbviewer.jupyter.org/github/rapirent/DSAI-HW3/blob/master/Model.ipynb)
+
+## LISENCE
+
+[MIT](https://github.com/rapirent/DSAI-HW3/blob/master/LICENSE)
