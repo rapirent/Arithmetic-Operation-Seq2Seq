@@ -75,10 +75,6 @@ print('Generating data...')
 while len(questions) < DATA_SIZE:
     f = lambda: int(''.join(np.random.choice(list('0123456789')) for i in range(np.random.randint(1, DIGITS + 1))))
     a, b = f(), f()
-    key = tuple(sorted((a, b)))
-    if key in seen:
-        continue
-    seen.add(key)
     if len(questions) % 2 == 0:
         q = '{}-{}'.format(a, b)
         query = q + ' ' * (MAXLEN - len(q))
@@ -87,6 +83,9 @@ while len(questions) < DATA_SIZE:
         q = '{}+{}'.format(a, b)
         query = q + ' ' * (MAXLEN - len(q))
         ans = str(a + b)
+    if q in seen:
+        continue
+    seen.add(q)
     ans += ' ' * (DIGITS + 1 - len(ans))
     if REVERSE:
         query = query[::-1]
