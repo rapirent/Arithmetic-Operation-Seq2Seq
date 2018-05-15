@@ -60,6 +60,6 @@ $ python3 ./model_load-multiply.py [--model_name MODEL_NAME]
 
 You can refer to jupyter notebook [Model.ipynb](https://nbviewer.jupyter.org/github/rapirent/DSAI-HW3/blob/master/Model.ipynb)
 
-## LISENCE
+## LICNESE
 
 [MIT](https://github.com/rapirent/DSAI-HW3/blob/master/LICENSE)
